@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+  <head>
+    <meta charset='UTF-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, user-scalable=yes, initial-scale=1.0'>
+
+    <!-- Main CSS -->
+    <link href='./css/main_style.css' rel='stylesheet' type='text/css' />
+
+    <!-- Others CSS -->
+    <link href='./css/redactor_style.css' rel='stylesheet' type='text/css' />
+    <link href='./css/moderator_style.css' rel='stylesheet' type='text/css' />
+
+    <!-- Main JS -->
+    <script src='./js/main_script.js' type='text/javascript' defer></script>
+    
+    <!-- Others JS -->
+    <script src='./js/redactor_script.js' type='text/javascript' defer></script>
+    <script src='./js/moderator_script.js' type='text/javascript' defer></script>
+    <title>Blog Project</title>
+  </head>
+
+  <body class='bodyBackground'>
+    <div id="container">
+    <!-- NAVBAR -------------------------------------------------------------->
+      <header id='mainHeader'>
+        <nav>
+          <div class='refresh hand'>
+            <img src='./assets/svg/refresh-icon.svg' alt='refresh_icon' />
+          </div>
+          <ul class='navbar'>
+            <li id='navConfirm'></li>
+            <li class='hand' id='home'>Home</li>
+            <li class='hand redactor hide' id='userPosts'>Your posts</li>
+            <li class='hand redactor hide li_cross'>
+              <img class='addArticle cross' id='add_art_cross' src='./assets/svg/add-plus-svgrepo-com.svg' alt='add_article_icon' />
+            </li>
+            <li class='hand redactor hide' id='add_art_text'>Add New Article</li>
+            <li class='li_search'>
+                <img class='search' src='./assets/png/magnifier.png' alt='search_icon' />
+            </li>
+            <li>
+              <input id='search' type='text' placeholder='Search' name='search' />
+            </li>
+            <li class='connect hand redactor hide' id='userWelcome'></li>
+            <li class='connect hand redactor hide' id='logOut'>Log Out</li>
+            <li class='connect hand logSign' id='logIn'>Log In |</li>
+            <li class='connect hand logSign' id='signUp'>Sign Up</li>
+          </ul>
+        </nav>
+      </header>
+
+      <!-- --------------------------------------------------------------------- -->
+
+      <main id='main'>
+
+        <div id='postContainer'> <!-- <=== Container if an Article has Comments --> </div>
+
+      </main>
+      
+    </div>
+  </body>
+
+</html>

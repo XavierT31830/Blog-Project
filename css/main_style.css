@@ -1,0 +1,278 @@
+
+@import url(https://fonts.googleapis.com/css?family=lato);
+
+* {
+  padding: 0;
+  margin: 0;
+  font-family: 'lato', sans-serif;
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+:root {
+  font-size: 1rem;
+}
+
+body {
+  width: 100vw;
+}
+
+/* à voir pour sticky navbar... */
+#mainHeader {
+  overflow: hidden;
+  z-index: 5;
+  position: -webkit-sticky;
+	position: sticky;
+	top: 0;
+  border: solid black 1px;
+}
+/*----------------------------------------*/
+
+#userWelcome {
+  color: brown;
+}
+
+.hand {
+  cursor: pointer;
+}
+
+.artTools, .h3 {
+  display: inline-block;
+  position: relative;
+  text-align: center;
+  width: 70%;
+}
+
+.artTools {
+  text-align: right;
+  width: 19%;
+}
+
+.authorComm, .commTools {
+  display: inline-block;
+  position: relative;
+  width: 50%;
+}
+
+.commTools {
+  text-align: right;
+  width: 49%;
+}
+
+input {
+  padding: 0.3rem 0.3rem;
+  border-radius: 30px;
+}
+
+nav {
+  display: flex;
+  position: sticky;
+  align-items: center;
+  justify-content: right;
+  z-index: 4;
+  font-size: 1.5rem;
+  text-shadow: 1px 2px 3px #515151;
+  height: 5rem;
+  background-color: #d3dedc;
+}
+
+.refresh {
+  position: absolute;
+  left: 5%;
+}
+
+ul.navbar {
+  display: flex;
+  list-style: none;
+}
+
+li {
+  margin-right: 6rem;
+}
+
+#search {
+  display: block;
+  width: 10rem;
+  height: 1.7rem;
+  padding: 3px;
+  margin-left: -6rem;
+}
+
+.search {
+  width: 22px;
+  height: 22px;
+  margin-top: 0.2rem;
+  border: none;
+  background-color: transparent;
+}
+
+#logIn {
+  margin-right: 0.5rem;
+}
+
+main {
+  margin: 1% 20%;
+}
+
+.pencil, .trash {
+  width: 25px;
+  height: 25px;
+  margin: 0rem 0.5rem;
+}
+
+.eye {
+  width: 30px;
+  height: 30px;
+}
+
+article.article {
+  position: relative;
+  width: 100%;
+  padding: 15px;
+  margin-top: 4rem;
+  /* margin-left: auto; */
+  border: black solid 1px;
+  border-radius: 10px;
+  background-color: rgba(211, 222, 220, 0.6);
+}
+
+.article_0, .article_1, .article_2 {
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
+article h3 {
+  text-align: center;
+  margin-right: 10%;
+  margin-bottom: 1%;
+}
+
+.article_img {
+  width: 20%;
+}
+
+div.post {
+  display: flex;
+  /* flex-direction: row; */
+}
+
+.content {
+  width: 60%;
+  padding: 1rem;
+  margin-left: 3%;
+  /* margin-right: 15%; */
+  border-radius: 5px;
+  background-color: white;
+}
+
+footer.postFooter {
+  display: flex;
+  justify-content: center;
+}
+
+div.author {
+  text-align: center;
+  width: 15%;
+  margin-top: 1%;
+  margin-left: 0%;
+}
+
+div.commentsView {
+  display: flex;
+  align-items: center;
+  margin-right: 3rem;
+  margin-left: auto;
+}
+
+aside {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: right;
+  width: 100%;
+}
+
+.logPopup, .signPopup {
+  position: fixed;
+  z-index: 5;
+  top: calc(30% - 150px);
+  left: calc(40% - 100px);
+  width: 500px;
+  height: 600px;
+  border: black solid 2px;
+  border-radius: 5px;
+  background-color: #E5EBEB;
+}
+
+.popupHeader {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 10%;
+  border-bottom: black solid 1px;
+  background-color: rgb(211, 222, 220);
+}
+
+.question {
+  font-style: italic;
+  font-size: 1.5rem;
+  margin-right: 3rem;
+}
+
+.permute {
+  font-size: 1.2rem;
+  padding: 0.3rem 0.8rem;
+  margin-right: 1rem;
+}
+
+.close {
+  margin: 0rem 1rem;
+  font-size: 1.5rem;
+}
+
+#logInForm, #signUpForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5rem;
+}
+
+#signUpForm {
+  margin-top: 2rem;
+}
+
+#signUpForm input {
+  margin: 0rem 0rem 0.5rem 0rem;
+  width: 50%;
+}
+
+#logInForm input {
+  margin: 0rem 0rem 2rem 0rem;
+  width: 50%;
+}
+
+#logInForm .inputPwdLog, #signUpForm .inputPwdConfirmSign {
+  margin-bottom: 0.5rem;
+}
+
+#logInSubmit, #signUpSubmit {
+  font-size: 1rem;
+  margin-top: 0.2rem;
+  padding: 0.5rem 0.8rem;
+  border-radius: 5px;
+}
+
+#logInForm #logInSubmit, #signUpForm #signUpSubmit {
+  width: auto;
+}
+
+#flogMsg, #signUpMsg {
+  font-style: italic;
+  margin-top: 0.1rem;
+}
