@@ -1,6 +1,3 @@
-
-
-
 <?php
 
   require ('../php_class/dao.users.class.php');
