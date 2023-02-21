@@ -10,8 +10,8 @@
     private $openCnx = null;
 
     const HOST = 'mysql:host=localhost;dbname=blog';
-    const LOGIN = 'root';
-    const PASSWORD = '';
+    const LOGIN = 'xavier';
+    const PASSWORD = '@xav.mamy31';
 
     public function cnx() {
       $this -> cnx = new Dbcnx(self::HOST, self::LOGIN, self::PASSWORD);
