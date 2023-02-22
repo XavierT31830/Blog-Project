@@ -45,9 +45,7 @@ function redactor_listeners() {
   const commTrashes = document.querySelectorAll(`.comm_delete_${sessionStorage.id_user}`);
   build_Art_Comm_Tool_Listeners(artTrashes, build_Delete_Article_Alerts, Articles);
   build_Art_Comm_Tool_Listeners(commTrashes, build_Delete_Comment_Alerts, Comments);
-
   build_Add_Comment_Listeners(newComment, addComment);
-
   build_Art_Comm_Tool_Listeners(artPencils, getArticle, Articles);  
   build_Art_Comm_Tool_Listeners(commPencils, getComment, Comments);
 }
@@ -271,7 +269,6 @@ function build_Delete_Article_Alerts(userArticle) {
   pencil.classList.toggle('negative_index');
   trash.classList.toggle('negative_index');
   trash_modo.classList.toggle('negative_index');
-
   
   msgAlert.classList.toggle('art_msg_tools_alert');
   warning.classList.toggle('hide');

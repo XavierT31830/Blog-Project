@@ -570,15 +570,11 @@ function getAllCommentsSuccess(artComments, displayMsg) {
   displayMsg.innerHTML = '';
   if (artComments[0] != undefined) {
     let artSelection = document.getElementById(`countComm_${artComments[0].article_id}`);
-    // let count = 0;
     let commCount = artComments.length;
     artSelection.innerHTML = `&nbsp;${commCount} &nbsp;comments`;
-
     for (comm of artComments) {
-      // count ++;
       let moderated = comm.moderated;
       let asideAttachComm = document.querySelector(`.article_${comm.article_id}`);
-
       let commentHtmlTemplate = 
         `<div class='comments comment_${comm.account_id} comment_${moderated}' id='comment_${comm.id_comment}'>
             <img src='./assets/svg/warning-svgrepo-com.svg' alt='warning' title='Warning!' class='hide' id='warning_${comm.id_comment}'>

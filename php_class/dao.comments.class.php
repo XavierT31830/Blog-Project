@@ -1,19 +1,8 @@
 <?php
 
-  require_once ('cnx.class.php');
+  require_once ('cnx.config.php');
 
-  class DAO_comments {
-    private $cnx = null;
-    private $openCnx = null;
-
-    const HOST = 'mysql:host=localhost;dbname=blog';
-    const LOGIN = 'xavier';
-    const PASSWORD = '@xav.mamy31';
-
-    public function cnx() {
-      $this -> cnx = new Dbcnx(self::HOST, self::LOGIN, self::PASSWORD);
-      $this -> openCnx = $this -> cnx -> openConnexion();
-    }
+  class DAO_comments extends Cnx_config {
 
     public function getAllComments($id) {
       $this -> cnx();
