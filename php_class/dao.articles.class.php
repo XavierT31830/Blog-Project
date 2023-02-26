@@ -1,7 +1,7 @@
 <?php
 
-  require_once ('cnx.config.php');
-
+  require_once('cnx.config.php');
+  
   class DAO_articles extends Cnx_config {
 
     public function getAllArticles() {

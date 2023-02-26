@@ -1,6 +1,6 @@
 <?php
 
-  require ('cnx.class.php');
+  require_once ('cnx.class.php');
 
   class Cnx_config {
     protected $cnx = null;
@@ -14,6 +14,6 @@
       $this -> cnx = new Dbcnx(self::HOST, self::LOGIN, self::PASSWORD);
       $this -> openCnx = $this -> cnx -> openConnexion();
     }
-}
+  }
 
 ?>

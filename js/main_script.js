@@ -79,6 +79,7 @@ function displayArticles() {
 
 
 // DISPLAY ALL COMMENTS IN LOOP : called by 'getAllArticlesSuccess(articles, displayMsg)'
+
 function displayComments(id) {
   let data = {};
   data.id = id;
@@ -358,121 +359,122 @@ function sendCnxData(formData, action, func) {
   const UpdatePopupMsg = document.getElementById('articleMsg');
   const NewCommentMsg = document.getElementById('newCommentMsg');
   const ArticleToolMsg = document.getElementById(`art_msg_tools_${formData.id_article}`)
-
+  
   switch (action) {
+    // -----------------------------------//
     case 'displayAllArticles':
       failure = getAllArticlesFail;
       displayMsg = NavConfirm;
       break;
-    
+    // -----------------------------------//
     case 'modo_displayAllArticles':
       failure = getAllArticlesFail;
       displayMsg = NavConfirm;
       break;
-  
+    // -----------------------------------//
     case 'displayAllComments':
       failure = getAllCommentsFail;
       displayMsg = NavConfirm;
       break;
-
+    // -----------------------------------//
     case 'modo_displayAllComments':
       failure = getAllCommentsFail;
       displayMsg = NavConfirm;
       break;
-
+    // -----------------------------------//
     case 'logIn':
       failure = getUserFail;
       displayMsg = FlogMsg;
       break;
-
+    // -----------------------------------//
     case 'signUp':
       failure = insertUserFail;
       displayMsg = SignUpMsg;
       break;
-
+    // -----------------------------------//
     case 'addNewArticle':
       formData.id_user = parseInt(sessionStorage.id_user);
       formData.is_moderated = 0; // 0 : just for DEV (need = 1)
       failure = insertArticleFail;
       displayMsg = UpdatePopupMsg;
       break;
-
+    // -----------------------------------//
     case 'getArticle':
       failure = getArticleFail;
       displayMsg = NavConfirm;
       break;
-
+    // -----------------------------------//
     case 'moderator_getArticle':
       failure = getArticleFail;
       displayMsg = NavConfirm;
       break;
-
+    // -----------------------------------//
     case 'updateArticle':
       failure = updateArticleFail;
       displayMsg = UpdatePopupMsg;
       break;
-
+    // -----------------------------------//
     case 'deleteArticle':
       failure = deleteArticleFail;
       displayMsg = NavConfirm;
       break;
-
+    // -----------------------------------//
     case 'moderator_deleteArticle':
       failure = modo_deleteArticleFail;
       displayMsg = ArticleToolMsg;
       break;
-
+    // -----------------------------------//
     case 'addNewComment':
       formData.is_moderated = 0; // 0 : just for DEV (need = 1)
       failure = insertCommentFail;
       displayMsg = NewCommentMsg;
       break;
-
+    // -----------------------------------//
     case 'getComment':
       failure = getCommentFail;
       displayMsg = NavConfirm;
       break;
-
+    // -----------------------------------//
     case 'moderator_getComment':
       failure = getCommentFail;
       displayMsg = NavConfirm;
       break;
-
+    // -----------------------------------//
     case 'updateComment':
       failure = updateCommentFail;
       displayMsg = UpdatePopupMsg;
       break;
-
+    // -----------------------------------//
     case 'deleteComment':
       failure = deleteCommentFail;
       displayMsg = NavConfirm;
       break;
-
+    // -----------------------------------//
     case 'moderator_deleteComment':
       failure = modo_deleteCommentFail;
       displayMsg = NavConfirm;
       break;
-
+    // -----------------------------------//
     case 'art_switch_to_1':
       failure = art_switch_to_mod_Fail;
       displayMsg = NavConfirm;
       break;
-
+    // -----------------------------------//
     case 'art_switch_to_0':
       failure = art_switch_to_mod_Fail;
       displayMsg = NavConfirm;
       break;
-
+    // -----------------------------------//
     case 'comm_switch_to_1':
       failure = comm_switch_to_mod_Fail;
       displayMsg = NavConfirm;
       break;
-
+    // -----------------------------------//
     case 'comm_switch_to_0':
       failure = comm_switch_to_mod_Fail;
       displayMsg = NavConfirm;
       break;
-
+    // -----------------------------------//
     default:
       NavConfirm.innerHTML = `(JS) Error sendCnxData(...)!`;
       navClearMsg(NavConfirm, ClearTime);

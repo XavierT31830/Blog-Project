@@ -1,6 +1,6 @@
 <?php
 
-  require_once ('cnx.config.php');
+  require_once('cnx.config.php');
 
   class DAO_comments extends Cnx_config {
 

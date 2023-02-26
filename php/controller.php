@@ -1,343 +1,346 @@
 <?php
 
-  require ('../php_class/dao.users.class.php');
-  require ('../php_class/dao.articles.class.php');
-  require ('../php_class/dao.comments.class.php');
-  require ('back_security.php');
-  require ('verif_data.php');
+  require('../php_class/dao.users.class.php');
+  require('../php_class/dao.articles.class.php');
+  require('../php_class/dao.comments.class.php');
+  require('back_security.php');
+  require('verif_data.php');
   $receiveData = json_decode(file_get_contents('php://input'));
   $action = $receiveData -> action;
 
-  switch ($action) {
+  actionSwitch($action, $receiveData);
 
-    case 'displayAllArticles':
-      $dao = new DAO_articles();
-      $data = $dao -> getAllArticles();
-      echo json_encode($data);
-      break;
+  function actionSwitch($action, $receiveData) {
+    switch ($action) {
+      //-----------------------------------------------------------------------------------------------//
+      case 'displayAllArticles':
+        $msg_insert = dataAll('DAO_articles', 'getAllArticles');
+        break;
+      //-----------------------------------------------------------------------------------------------//
+      case 'modo_displayAllArticles':
+        $msg_insert = dataAll('DAO_articles', 'modo_getAllArticles');
+        break;
+      //-----------------------------------------------------------------------------------------------//
+      case 'displayAllComments':
+        $msg_insert = dataById($receiveData, 'DAO_comments', 'getAllComments', 'id');
+        break;
+      //-----------------------------------------------------------------------------------------------//
+      case 'modo_displayAllComments':
+        $msg_insert = dataById($receiveData, 'DAO_comments', 'modo_getAllComments', 'id');
+        break;
+      //-----------------------------------------------------------------------------------------------//
+      case 'logIn':
+        $msg_insert = logIn($receiveData, 'DAO_users', 'getUser');
+        break;
+      //-----------------------------------------------------------------------------------------------//
+      case 'signUp':
+        $msg_insert = signUp($receiveData, 'DAO_users', 'insertUser');
+        break;
+      //-----------------------------------------------------------------------------------------------//
+      case 'getArticle':
+        $data = dataById($receiveData, 'DAO_articles', 'getArticle', 'id_article');
+        $msg_insert = msg_insert($data, $action);
+        break;
+      //-----------------------------------------------------------------------------------------------//
+      case 'moderator_getArticle':
+        $data = dataById($receiveData, 'DAO_articles', 'modo_getArticle', 'id_article');
+        $msg_insert = msg_insert($data, $action);
+        break;
+      //-----------------------------------------------------------------------------------------------//
+      case 'getComment':
+        $data = dataById($receiveData, 'DAO_comments', 'getComment', 'id_comment');
+        $msg_insert = msg_insert($data, $action);
+        break;
+      //-----------------------------------------------------------------------------------------------//
+      case 'moderator_getComment':
+        $data = dataById($receiveData, 'DAO_comments', 'modo_getComment', 'id_comment');
+        $msg_insert = msg_insert($data, $action);
+        break;
+      //-----------------------------------------------------------------------------------------------//
+      case 'addNewArticle':
+        $msg_insert = articleAddUpdate($receiveData, 'DAO_articles', 'insertArticle', 'addNewArticle');
+        break;
+      //-----------------------------------------------------------------------------------------------//
+      case 'updateArticle':
+        $msg_insert = articleAddUpdate($receiveData, 'DAO_articles', 'updateArticle', 'updateArticle');
+        break;
+      //-----------------------------------------------------------------------------------------------//
+      case 'deleteArticle':
+        $data = dataById($receiveData, 'DAO_articles', 'set_article_is_mod_to_1', 'id_article');
+        $msg_insert = msg_insert($data, $action);
+        break;
+      //-----------------------------------------------------------------------------------------------//
+      case 'moderator_deleteArticle':
+        $data = dataById($receiveData, 'DAO_articles', 'modo_deleteArticle', 'id_article');
+        $msg_insert = msg_insert($data, $action);
+        break;
+      //-----------------------------------------------------------------------------------------------//
+      case 'addNewComment':
+        $data = commentAddUpdate($receiveData, 'DAO_comments', 'insertComment');
+        $msg_insert = msg_insert($data, $action);
+        break;
+      //-----------------------------------------------------------------------------------------------//
+      case 'updateComment':
+        $data = commentAddUpdate($receiveData, 'DAO_comments', 'updateComment');
+        $msg_insert = msg_insert($data, $action);
+        break;
+      //-----------------------------------------------------------------------------------------------//
+      case 'deleteComment':
+        $data = dataById($receiveData, 'DAO_comments', 'set_comment_is_mod_to_1', 'id_comment');
+        $msg_insert = msg_insert($data, $action);
+        break;
+      //-----------------------------------------------------------------------------------------------//
+      case 'moderator_deleteComment':
+        $data = dataById($receiveData, 'DAO_comments', 'modo_deleteComment', 'id_comment');
+        $msg_insert = msg_insert($data, $action);
+        break;
+      //-----------------------------------------------------------------------------------------------//
+      case 'art_switch_to_1':
+        $data = dataSwitch($receiveData, 'DAO_articles', 'set_art_is_mod_to', 'id_article');
+        $msg_insert = msg_insert($data, $action);
+        break;
+      //-----------------------------------------------------------------------------------------------//
+      case 'art_switch_to_0':
+        $data = dataSwitch($receiveData, 'DAO_articles', 'set_art_is_mod_to', 'id_article');
+        $msg_insert = msg_insert($data, $action);
+        break;
+      //-----------------------------------------------------------------------------------------------//
+      case 'comm_switch_to_1':
+        $data = dataSwitch($receiveData, 'DAO_comments', 'set_comm_is_mod_to', 'id_comment');
+        $msg_insert = msg_insert($data, $action);
+        break;
+      //-----------------------------------------------------------------------------------------------//
+      case 'comm_switch_to_0':
+        $data = dataSwitch($receiveData, 'DAO_comments', 'set_comm_is_mod_to', 'id_comment');
+        $msg_insert = msg_insert($data, $action);
+        break;
+      //-----------------------------------------------------------------------------------------------//
+      default:
+        $msg_insert = 'Controller -> Switch Case null! (dflt msg)';
+        break;
+      //-----------------------------------------------------------------------------------------------//
+    }
+    echo json_encode($msg_insert);
+  }
 
-    case 'modo_displayAllArticles':
-      $dao = new DAO_articles();
-      $data = $dao -> modo_getAllArticles();
-      echo json_encode($data);
-      break;
-
-    case 'displayAllComments':
-      $dao = new DAO_comments();
-      $data = $dao -> getAllComments($receiveData -> id);
-      echo json_encode($data);
-      break;
-
-    case 'modo_displayAllComments':
-      $dao = new DAO_comments();
-      $data = $dao -> modo_getAllComments($receiveData -> id);
-      echo json_encode($data);
-      break;
-
-    case 'logIn':
-      $dao = new DAO_users();
-      $pseudo = $receiveData -> pseudo;
-      $pwdUser = $receiveData -> pwd;
-      if (verifPseudo($pseudo) == 1) {
-        $data = $dao -> getUser($pseudo);
-        if ($data == false) {
-          $msg_insert = 'This Pseudo doesn\'t exist!';
-        }
-        else {       
-          if (verifPwd($pwdUser) == 1) {
-            $pwdData = ($data['pwd']);
-            $verify = password_verify($pwdUser, $pwdData);
-            if ($verify) {
-              echo json_encode($data);
-              break;
-            }
-            else {
-              $msg_insert = 'Incorrect Password!';
-            }
+  function logIn($receiveData, $class, $func) {
+    $dao = new $class();
+    $pseudo = $receiveData -> pseudo;
+    $pwdUser = $receiveData -> pwd;
+    if (verifPseudo($pseudo) == 1) {
+      $data = $dao -> $func($pseudo);
+      // Pseudo OK = SUCCESS to getting user in order to test its existence
+      if ($data == false) {
+        $msg = 'This Pseudo doesn\'t exist!';
+      }
+      else {       
+        if (verifPwd($pwdUser) == 1) {
+          $pwdData = ($data['pwd']);
+          $verify = password_verify($pwdUser, $pwdData);
+          if ($verify) {
+            $msg = $data;
+            // Password Ok = SUCCESSFULLY LOGGED IN
           }
           else {
-            $msg_insert = verifPwd($pwdUser);
+            $msg = 'Incorrect Password!';
           }
-        }
-      }
-      else {
-        $msg_insert = verifPseudo($pseudo);
-      }
-      echo json_encode($msg_insert);
-      break;
-
-    case 'signUp':
-      $dao = new DAO_users();
-      $pseudo = $receiveData -> pseudo;
-      $firstname = $receiveData -> firstname;
-      $email = $receiveData -> email;
-      $pwd = $receiveData -> pwd;
-      $pwdConfirm = $receiveData -> pwdConfirm;
-      if (verifPseudo($pseudo) == 1 && verifFirstname($firstname) == 1 && verifEmail($email) == 1 && verifPwd($pwd) == 1 && verifPwd($pwdConfirm) == 1) {
-        if ($pwd != $pwdConfirm) {
-          $msg_insert = 'Password confirmation is incorrect!';
         }
         else {
-          $pseudo = security($receiveData -> pseudo);
-          $firstname = security($receiveData -> firstname);
-          $email = security($receiveData -> email);
-          $pwd = security($receiveData -> pwd);
-          $receiveData -> pwd = password_hash($receiveData -> pwd, PASSWORD_DEFAULT);
-          $bool = $dao -> insertUser($receiveData);
-          if ($bool) {
-            $msg_insert = 'New user correctly registered!';
-          }
-          else {
-            $msg_insert = 'User already exists!';
-          }
+          $msg = verifPwd($pwdUser);
         }
       }
-      else {
-        if (verifPseudo($pseudo) != 1) {
-          $msg_insert = verifPseudo($pseudo);
-        }
-        else if (verifFirstname($firstname) != 1) {
-          $msg_insert = verifFirstname($firstname);
-        }
-        else if (verifEmail($email) != 1) {
-          $msg_insert = verifEmail($email);
-        }
-        else if (verifPwd($pwd) != 1) {
-          $msg_insert = verifPwd($pwd);
-        }
-        else if (verifPwd($pwdConfirm) != 1) {
-          $msg_insert = 'Invalid Password Confirmation!</br></br>- (requires) at least one lower case</br>- (requires) at least one upper case</br>- (requires) 8 characters minimum</br>- (requires) one special character</br>- accents and numbers are allowed</br>- 100 characters Maximum';
-        }
-      }
-      echo json_encode($msg_insert);
-      break;
+    }
+    else {
+      $msg = verifPseudo($pseudo);
+    }
+    return $msg;
+  }
 
-    case 'addNewArticle':
-      $dao = new DAO_articles();
-      $title = security($receiveData -> title);
-      $content = security($receiveData -> content);
-      if (verifTitleArticle($title) != 1) {
-        $msg_insert = verifTitleArticle($title);
+  function signUp($receiveData, $class, $func) {
+    $dao = new $class();
+    $pseudo = $receiveData -> pseudo;
+    $firstname = $receiveData -> firstname;
+    $email = $receiveData -> email;
+    $pwd = $receiveData -> pwd;
+    $pwdConfirm = $receiveData -> pwdConfirm;
+    if (verifPseudo($pseudo) == 1 && verifFirstname($firstname) == 1 && verifEmail($email) == 1 && verifPwd($pwd) == 1 && verifPwd($pwdConfirm) == 1) {
+      if ($pwd != $pwdConfirm) {
+        $msg = 'Password confirmation is incorrect!';
       }
       else {
-        $data = $dao -> insertArticle($receiveData);
-        if ($data) {
-          $msg_insert = 'Article correctly added!';
+        $pseudo = security($receiveData -> pseudo);
+        $firstname = security($receiveData -> firstname);
+        $email = security($receiveData -> email);
+        $pwd = security($receiveData -> pwd);
+        $receiveData -> pwd = password_hash($receiveData -> pwd, PASSWORD_DEFAULT);
+        $bool = $dao -> $func($receiveData); 
+        // Checking Data Ok = SUCCESS to send request in order to test its existence
+        if ($bool) {
+          $msg = 'New user correctly registered!'; 
+          // SUCCESSFULLY REGISTERED
         }
         else {
-          $msg_insert = 'Error on adding article!';
+          $msg = 'User already exists!';
         }
       }
-      echo json_encode($msg_insert);
-      break;
-
-    case 'getArticle':
-      $dao = new DAO_articles();
-      $id = $receiveData -> id_article;
-      $data = $dao -> getArticle($id);
-      if ($data) {
-        echo json_encode($data);
+    }
+    else {
+      if (verifPseudo($pseudo) != 1) {
+        $msg = verifPseudo($pseudo);
       }
-      else {
-        $msg_insert = 'Error on getting Article from Database!';
-        echo json_encode($msg_insert);
+      else if (verifFirstname($firstname) != 1) {
+        $msg = verifFirstname($firstname);
       }
-      break;
-
-    case 'moderator_getArticle':
-      $dao = new DAO_articles();
-      $id = $receiveData -> id_article;
-      $data = $dao -> modo_getArticle($id);
-      if ($data) {
-        echo json_encode($data);
+      else if (verifEmail($email) != 1) {
+        $msg = verifEmail($email);
       }
-      else {
-        $msg_insert = 'Error on getting Article from Database!';
-        echo json_encode($msg_insert);
+      else if (verifPwd($pwd) != 1) {
+        $msg = verifPwd($pwd);
       }
-      break;
+      else if (verifPwd($pwdConfirm) != 1) {
+        $msg = 'Invalid Password Confirmation!</br></br>- (requires) at least one lower case</br>- (requires) at least one upper case</br>- (requires) 8 characters minimum</br>- (requires) one special character</br>- accents and numbers are allowed</br>- 100 characters Maximum';
+      }
+    }
+    return $msg;
     
-    case 'updateArticle':
-      $dao = new DAO_articles();
-      $title = security($receiveData -> title);
-      $content = security($receiveData -> content);
-      if (verifTitleArticle($title) != 1) {
-        $msg_insert = verifTitleArticle($title);
-      }
-      else {
-        $data = $dao -> updateArticle($receiveData);
-        if ($data) {
-          $msg_insert = 'Article correctly updated!';
-        }
-        else {
-          $msg_insert = 'Error on updating article!';
-        }
-      }
-      echo json_encode($msg_insert);
-      break;
+  }
 
-    case 'deleteArticle':
-      $dao = new DAO_articles();
-      $id_article = $receiveData -> id_article;
-      $data = $dao -> set_article_is_mod_to_1($id_article);
-      if ($data) {
-        $msg_insert = 'Your request to delete this article</br>has been sent to a moderator!';
-      }
-      else {
-        $msg_insert = 'Error in article deletion request!';
-      }
-      echo json_encode($msg_insert);
-      break;
+  function dataAll($class, $func) {
+    $dao = new $class();
+    $data = $dao -> $func();
+    return $data;
+  }
 
-    case 'moderator_deleteArticle':
-      $dao = new DAO_articles();
-      $id_article = $receiveData -> id_article;
-      $data = $dao -> modo_deleteArticle($id_article);
-      if ($data) {
-        $msg_insert = 'Article correctly deleted!';
-      }
-      else {
-        $msg_insert = 'Error in article deletion!';
-      }
-      echo json_encode($msg_insert);
-      break;
+  function dataById($receiveData, $class, $func, $id) {
+    $dao = new $class();
+    $data = $dao -> $func($receiveData -> $id);
+    return $data;
+  }
 
-    case 'addNewComment':
-      $dao = new DAO_comments();
-      $data = $dao -> insertComment($receiveData);
-      if ($data) {
-        $msg_insert = 'Comment correctly added!';
-      }
-      else {
-        $msg_insert = 'Error in adding your comment!';
-      }
-      echo json_encode($msg_insert);
-      break;
+  function articleAddUpdate($receiveData, $class, $func, $action) {
+    $dao = new $class();
+    $title = security($receiveData -> title);
+    $content = security($receiveData -> content);
+    if (verifTitleArticle($title) != 1) {
+      $msg = verifTitleArticle($title);
+    }
+    else {
+      $data = $dao -> $func($receiveData);
+      $msg = msg_insert($data, $action);
+    }
+    return $msg;
+  }
 
-    case 'getComment':
-      $dao = new DAO_comments();
-      $id = $receiveData -> id_comment;
-      $data = $dao -> getComment($id);
-      if ($data) {
-        echo json_encode($data);
-      }
-      else {
-        $msg_insert = 'Error on getting Comment from Database!';
-        echo json_encode($msg_insert);
-      }
-      break;
+  function commentAddUpdate($receiveData, $class, $func) {
+    $dao = new $class();
+    $content = security($receiveData -> content);
+    $data = $dao -> $func($receiveData);
+    return $data;
+  }
 
-    case 'moderator_getComment':
-      $dao = new DAO_comments();
-      $id = $receiveData -> id_comment;
-      $data = $dao -> modo_getComment($id);
-      if ($data) {
-        echo json_encode($data);
-      }
-      else {
-        $msg_insert = 'Error on getting Comment from Database!';
-        echo json_encode($msg_insert);
-      }
-      break;
+  function dataSwitch($receiveData, $class, $func, $id) {
+    $dao = new $class();
+    $idToSend = $receiveData -> $id;
+    $set = $receiveData -> set_mod;
+    $data = $dao -> $func($idToSend, $set);
+    return $data;
+  }
 
-    case 'updateComment':
-      $dao = new DAO_comments();
-      $content = security($receiveData -> content);
-      $data = $dao -> updateComment($receiveData);
-      if ($data) {
-        $msg_insert = 'Comment correctly updated!';
-      }
-      else {
-        $msg_insert = 'Error on updating comment!';
-      }
-      echo json_encode($msg_insert);
-      break;
-
-    case 'deleteComment':
-      $dao = new DAO_comments();
-      $id_comment = $receiveData -> id_comment;
-      $data = $dao -> set_comment_is_mod_to_1($id_comment);
-      if ($data) {
-        $msg_insert = 'Your request to delete this comment</br>has been sent to a moderator!';
-      }
-      else {
-        $msg_insert = 'Error in comment deletion request!';
-      }
-      echo json_encode($msg_insert);
-      break;
-
-    case 'moderator_deleteComment':
-      $dao = new DAO_comments();
-      $id_comment = $receiveData -> id_comment;
-      $data = $dao -> modo_deleteComment($id_comment);
-      if ($data) {
-        $msg_insert = 'Comment correctly deleted!';
-      }
-      else {
-        $msg_insert = 'Error in comment deletion!';
-      }
-      echo json_encode($msg_insert);
-      break;
-
-    case 'art_switch_to_1':
-      $dao = new DAO_articles();
-      $id_article = $receiveData -> id_article;
-      $set = $receiveData -> set_mod;
-      $data = $dao -> set_art_is_mod_to($id_article, $set);
-      if ($data) {
-        $msg_insert = 'Article correctly set to : is_mod_1!';
-      }
-      else {
-        $msg_insert = 'Error in article setting moderated request!';
-      }
-      echo json_encode($msg_insert);
-      break;
-
-    case 'art_switch_to_0':
-      $dao = new DAO_articles();
-      $id_article = $receiveData -> id_article;
-      $set = $receiveData -> set_mod;
-      $data = $dao -> set_art_is_mod_to($id_article, $set);
-      if ($data) {
-        $msg_insert = 'Article correctly set to : is_mod_0!';
-      }
-      else {
-        $msg_insert = 'Error in article setting moderated request!';
-      }
-      echo json_encode($msg_insert);
-      break;
-
-    case 'comm_switch_to_1':
-      $dao = new DAO_comments();
-      $id_comment = $receiveData -> id_comment;
-      $set = $receiveData -> set_mod;
-      $data = $dao -> set_comm_is_mod_to($id_comment, $set);
-      if ($data) {
-        $msg_insert = 'Comment correctly set to : is_mod_1!';
-      }
-      else {
-        $msg_insert = 'Error in comment setting moderated request!';
-      }
-      echo json_encode($msg_insert);
-      break;
-
-    case 'comm_switch_to_0':
-      $dao = new DAO_comments();
-      $id_comment = $receiveData -> id_comment;
-      $set = $receiveData -> set_mod;
-      $data = $dao -> set_comm_is_mod_to($id_comment, $set);
-      if ($data) {
-        $msg_insert = 'Comment correctly set to : is_mod_0!';
-      }
-      else {
-        $msg_insert = 'Error in Comment setting moderated request!';
-      }
-      echo json_encode($msg_insert);
-      break;
-
-    default:
-      # code...
-      break;
+  function msg_insert($data, $action) {
+    switch ($action) {
+      //---------------------------------------------------------------------//
+      case 'getArticle':
+        $success = $data;
+        $error = 'Error on getting Article from Database!';
+        break;
+      //---------------------------------------------------------------------//
+      case 'moderator_getArticle':
+        $success = $data;
+        $error = 'Error on getting Article from Database!';
+        break;
+      //---------------------------------------------------------------------//
+      case 'getComment':
+        $success = $data;
+        $error = 'Error on getting Comment from Database!';
+        break;
+      //---------------------------------------------------------------------//
+      case 'moderator_getComment':
+        $success = $data;
+        $error = 'Error on getting Comment from Database!';
+        break;
+      //---------------------------------------------------------------------//
+      case 'addNewArticle':
+        $success = 'Article correctly added!';
+        $error = 'Error on adding article!';
+        break;
+      //---------------------------------------------------------------------//
+      case 'updateArticle':
+        $success = 'Article correctly updated!';
+        $error = 'Error on updating article!';
+        break;
+      //---------------------------------------------------------------------//
+      case 'deleteArticle':
+        $success = 'Your request to delete this article</br>has been sent to a moderator!';
+        $error = 'Error in article deletion request!';
+        break;
+      //---------------------------------------------------------------------//
+      case 'moderator_deleteArticle':
+        $success = 'Article correctly deleted!';
+        $error = 'Error in article deletion!';
+        break;
+      //---------------------------------------------------------------------//
+      case 'addNewComment':
+        $success = 'Comment correctly added!';
+        $error = 'Error in adding your comment!';
+        break;
+      //---------------------------------------------------------------------//
+      case 'updateComment':
+        $success = 'Comment correctly updated!';
+        $error = 'Error on updating comment!';
+        break;
+      //---------------------------------------------------------------------//
+      case 'deleteComment':
+        $success = 'Your request to delete this comment</br>has been sent to a moderator!';
+        $error = 'Error in comment deletion request!';
+        break;
+      //---------------------------------------------------------------------//
+      case 'moderator_deleteComment':
+        $success = 'Comment correctly deleted!';
+        $error = 'Error in comment deletion!';
+        break;
+      //---------------------------------------------------------------------//
+      case 'art_switch_to_1':
+        $success = 'Article correctly set to : is_mod_1!';
+        $error = 'Error in article setting moderated request!';
+        break;
+      //---------------------------------------------------------------------//
+      case 'art_switch_to_0':
+        $success = 'Article correctly set to : is_mod_0!';
+        $error = 'Error in article setting moderated request!';
+        break;
+      //---------------------------------------------------------------------//
+      case 'comm_switch_to_1':
+        $success = 'Comment correctly set to : is_mod_1!';
+        $error = 'Error in comment setting moderated request!';
+        break;
+      //---------------------------------------------------------------------//
+      case 'comm_switch_to_0':
+        $success = 'Comment correctly set to : is_mod_0!';
+        $error = 'Error in Comment setting moderated request!';
+        break;
+      //---------------------------------------------------------------------//
+      default:
+        $msg = 'Error : #messageInsert($data, $case)';
+        break;
+      //---------------------------------------------------------------------//
+    }
+    if ($data) {
+      $msg = $success;
+    }
+    else {
+      $msg = $error;
+    }
+    return $msg;
   }
 
 ?>
