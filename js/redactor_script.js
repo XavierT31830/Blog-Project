@@ -99,58 +99,22 @@ function createUpdatePopup(idPopup, data) {
     action = 'addNewArticle';
     func = insertArticleSuccess;
     data = '';
-    popupHeader.innerHTML =
-      `<span class='newArticleHead'>ARTICLE INSERTION FORM</span>
-      <span class='close hand'>X</span>`;
-    popupBody.innerHTML =
-      `<div id='newArticleWrap'>
-        <form id='${idForm}' action='addNewArticle' method='POST'>
-          <label for='title' name='title'>Title :&nbsp;</label>
-          <input type='text' placeholder='max: 100 caracters' name='title' class='titleInputNewArticle' />
-          <label for='content' name='content'>Content :&nbsp;</label>
-          <textarea name='content' placeholder='write article here...' class='textNewArticle'></textarea>
-          <input class='newArticleSubmit' type='submit' value='Valid New Article' />
-          <p id='articleMsg' class='articleMsg'></p>
-        </form>
-      </div>`;
+    popupHeader.innerHTML = buildPopupHeader(idPopup);
+    popupBody.innerHTML = buildPopupBody(idPopup, idForm, data);
   }
-
   else if (idPopup == UpdateArticleIDPopup) {
     idForm = 'updateArticleForm';
     action = data.action;
     func = data.func;
-    popupHeader.innerHTML =
-      `<span class='updateArticleHead'>ARTICLE UPDATE FORM</span>
-      <span class='close hand'>X</span>`;
-    popupBody.innerHTML =
-      `<div id='updateArticleWrap'>
-        <form id='${idForm}' action='updateArticle' method='POST'>
-          <label for='title' name='title'>Title :&nbsp;</label>
-          <textarea name='title' class='titleInputupdateArticle'>${data.title}</textarea>
-          <label for='content' name='content'>Content :&nbsp;</label>
-          <textarea name='content' class='textupdateArticle'>${data.content}</textarea>
-          <input class='updateArticleSubmit' type='submit' value='Valid Modifications' />
-          <p id='articleMsg' class='articleMsg'></p>
-        </form>
-      </div>`;
+    popupHeader.innerHTML = buildPopupHeader(idPopup);
+    popupBody.innerHTML = buildPopupBody(idPopup, idForm, data);
   }
-
   else if (idPopup == UpdateCommentIDPopup) {
     idForm = 'updateCommentForm';
     action = data.action;
     func = data.func;
-    popupHeader.innerHTML =
-      `<span class='updateCommentHead'>COMMENT UPDATE FORM</span>
-      <span class='close hand'>X</span>`;
-      popupBody.innerHTML =
-      `<div id='updateArticleWrap'>
-        <form id='${idForm}' action='updateComment' method='POST'>
-          <label for='content' name='content'>Content :&nbsp;</label>
-          <textarea name='content' class='textupdateComment'>${data.content}</textarea>
-          <input class='updateCommentSubmit' type='submit' value='Valid Modifications' />
-          <p id='articleMsg' class='articleMsg'></p>
-        </form>
-      </div>`;
+    popupHeader.innerHTML = buildPopupHeader(idPopup);
+    popupBody.innerHTML = buildPopupBody(idPopup, idForm, data);
   }
 
   document.querySelector('.close').addEventListener('click', () => {
@@ -212,7 +176,6 @@ function updateArticle(respData, displayMsg) {
     let msg = `(JS) Correctly retrieved article ID: ${id_article}`;
     displayMsg.innerHTML = msg;
     navClearMsg(displayMsg, UpdateTime);
-
     let data = {};
     data.id_article = id_article;
     data.action = action;
@@ -227,24 +190,22 @@ function updateArticle(respData, displayMsg) {
 // DELETE ARTICLE
 function deleteArticle(userArticle) {
   let id_article = splitAndParseToID(`${userArticle.id}`);
+  let data = {};
+  let action;
+  let func;
 
-  // if (confirmArtDelete == true) {
-    let data = {};
-    let action;
-    let func;
-    if (sessionStorage.userRole == Moderator) {
-      action = 'moderator_deleteArticle';
-      func = modo_deleteArticleSuccess;
-    }
-    else if (sessionStorage.userRole == Redactor) {
-      action = 'deleteArticle';
-      func = deleteArticleSuccess;
-    }
-    data.id_article = id_article;
-    data.action = action;
-    sendCnxData(data, action, func);
-  //   confirmArtDelete = false;
-  // }
+  if (sessionStorage.userRole == Moderator) {
+    action = 'moderator_deleteArticle';
+    func = modo_deleteArticleSuccess;
+  }
+  else if (sessionStorage.userRole == Redactor) {
+    action = 'deleteArticle';
+    func = deleteArticleSuccess;
+  }
+
+  data.id_article = id_article;
+  data.action = action;
+  sendCnxData(data, action, func);
 }
 
 
@@ -322,14 +283,11 @@ function build_Delete_Comment_Alerts(userComment) {
 
 // ADD COMMENT
 function addComment(id_art, data) {
-  console.log(id_art);
-  console.log(data);
   let action = 'addNewComment';
   let func;
   func = insertCommentSuccess;
   data.id_article = id_art;
   data.id_user = parseInt(sessionStorage.id_user);
-  console.log(data);
 
   verif(data, action, func);
   NavConfirm.innerHTML = `(JS) addComment(comment)!`;
