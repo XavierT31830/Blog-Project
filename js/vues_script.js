@@ -2,106 +2,139 @@
 
 function buildPopupHeader(idPopup) {
   let popupHeader;
-  if (idPopup == "logPopup") {
-    popupHeader = 
-      `<span class='question'>Not registered yet ?  ==></span>
-      <button class='permute hand'>Sign Up</button>
-      <span class='close hand'>X</span>`;
-  }
-  else if (idPopup == "signPopup") {
-    popupHeader = 
-      `<span class='question'>Already registered ?  ==></span>
-      <button class='permute hand'>Log In</button>
-      <span class='close hand'>X</span>`;
-  }
-  else if (idPopup == NewArticleIDPopup) {
-    popupHeader = 
-      `<span class='newArticleHead'>ARTICLE INSERTION FORM</span>
-      <span class='close hand'>X</span>`;
-  }
-  else if (idPopup == UpdateArticleIDPopup) {
-    popupHeader = 
-      `<span class='updateArticleHead'>ARTICLE UPDATE FORM</span>
-      <span class='close hand'>X</span>`;
-  }
-  else if (idPopup = UpdateCommentIDPopup) {
-    popupHeader = 
-      `<span class='updateCommentHead'>COMMENT UPDATE FORM</span>
-      <span class='close hand'>X</span>`;
+  switch (idPopup) {
+  //--------------------------------------------------------------------------//
+    case LogIDPopup:
+      popupHeader = 
+        `<span class='question'>Not registered yet ?  ==></span>
+        <button class='permute hand'>Sign Up</button>
+        <span class='close hand'>X</span>`;
+      break;
+  //--------------------------------------------------------------------------//
+    case SignIDPopup:
+      popupHeader = 
+        `<span class='question'>Already registered ?  ==></span>
+        <button class='permute hand'>Log In</button>
+        <span class='close hand'>X</span>`;
+      break;
+  //--------------------------------------------------------------------------//
+    case NewArticleIDPopup:
+      popupHeader = 
+        `<span class='newArticleHead'>ARTICLE INSERTION FORM</span>
+        <span class='close hand'>X</span>`;
+      break;
+  //--------------------------------------------------------------------------//
+    case UpdateArticleIDPopup:
+      popupHeader = 
+        `<span class='updateArticleHead'>ARTICLE UPDATE FORM</span>
+        <span class='close hand'>X</span>`;
+      break;
+  //--------------------------------------------------------------------------//
+    case UpdateCommentIDPopup:
+      popupHeader = 
+        `<span class='updateCommentHead'>COMMENT UPDATE FORM</span>
+        <span class='close hand'>X</span>`;
+      break;
+  //--------------------------------------------------------------------------//
+    default:
+      popupHeader = 
+        `<span class='updateCommentHead'>DEFAULT</span>
+        <span class='close hand'>X</span>`;
+      break;
+  //--------------------------------------------------------------------------//
   }
   return popupHeader;
 }
 
 function buildPopupBody(idPopup, idForm, data) {
   let popupBody;
-  if (idPopup == "logPopup") {
-    popupBody = 
-      `<div id='logInWrap'>
-        <form id='logInForm' action='logIn' method='POST'>
-          <label for='pseudo' name='pseudo'>Enter your Pseudo :&nbsp;</label>
-          <input type='text' name='pseudo' />
-          <label for='pwd' name='pwd'>Enter your Password :&nbsp;</label>
-          <input type='password' name='pwd' class='inputPwdLog' />      
-          <input id='logInSubmit' type='submit' value='Log In' />
-          <p id='flogMsg' class='flogMsg'></p>
-        </form>
-      </div>`;
-  }
-  else if (idPopup == "signPopup") {
-    popupBody = 
-      `<div id='signUpWrap'>
-        <form id='signUpForm' action='signUp' method='POST'>
-          <label for='firstname' name='firstname'>Your First Name :&nbsp;</label>
-          <input type='text' name='firstname' />
-          <label for='pseudo' name='pseudo'>Choose your Pseudo :&nbsp;</label>
-          <input type='text' name='pseudo' />
-          <label for='email' name='email'>Enter your Email :&nbsp;</label>
-          <input type='email' name='email' />
-          <label for='pwd' name='pwd'>Choose your Password :&nbsp;</label>
-          <input type='password' name='pwd' />
-          <label for='pwdConfirm' name='pwdConfirm'>Confirm your Password :&nbsp;</label>
-          <input type='password' name='pwdConfirm' class='inputPwdConfirmSign' />
-          <input id='signUpSubmit' type='submit' value='Sign Up' />
-          <p id='signUpMsg' class='signUpMsg'></p>
-        </form>
-      </div>`;
-  }
-  else if (idPopup == NewArticleIDPopup) {
-    popupBody = 
-      `<div id='newArticleWrap'>
-        <form id='${idForm}' action='addNewArticle' method='POST'>
-          <label for='title' name='title'>Title :&nbsp;</label>
-          <input type='text' placeholder='max: 100 caracters' name='title' class='titleInputNewArticle' />
-          <label for='content' name='content'>Content :&nbsp;</label>
-          <textarea name='content' placeholder='write article here...' class='textNewArticle'></textarea>
-          <input class='newArticleSubmit' type='submit' value='Valid New Article' />
-          <p id='articleMsg' class='articleMsg'></p>
-        </form>
-      </div>`;
-  }
-  else if (idPopup == UpdateArticleIDPopup) {
-    popupBody = 
-      `<div id='updateArticleWrap'>
-        <form id='${idForm}' action='updateArticle' method='POST'>
-          <label for='title' name='title'>Title :&nbsp;</label>
-          <textarea name='title' class='titleInputupdateArticle'>${data.title}</textarea>
-          <label for='content' name='content'>Content :&nbsp;</label>
-          <textarea name='content' class='textupdateArticle'>${data.content}</textarea>
-          <input class='updateArticleSubmit' type='submit' value='Valid Modifications' />
-          <p id='articleMsg' class='articleMsg'></p>
-        </form>
-      </div>`;
-  }
-  else if (idPopup == UpdateCommentIDPopup) {
-    popupBody = 
-      `<div id='updateArticleWrap'>
-        <form id='${idForm}' action='updateComment' method='POST'>
-          <label for='content' name='content'>Content :&nbsp;</label>
-          <textarea name='content' class='textupdateComment'>${data.content}</textarea>
-          <input class='updateCommentSubmit' type='submit' value='Valid Modifications' />
-          <p id='articleMsg' class='articleMsg'></p>
-        </form>
-      </div>`;
+  switch (idPopup) {
+  //------------------------------------------------------------------------------------------------//
+    case LogIDPopup:
+      popupBody = 
+        `<div id='logInWrap'>
+          <form id='logInForm' action='logIn' method='POST'>
+            <label for='pseudo' name='pseudo'>Enter your Pseudo :&nbsp;</label>
+            <input type='text' name='pseudo' />
+            <label for='pwd' name='pwd'>Enter your Password :&nbsp;</label>
+            <input type='password' name='pwd' class='inputPwdLog' />      
+            <input id='logInSubmit' type='submit' value='Log In' />
+            <p id='flogMsg' class='flogMsg'></p>
+          </form>
+        </div>`;
+      break;
+  //------------------------------------------------------------------------------------------------//
+    case SignIDPopup:
+      popupBody = 
+        `<div id='signUpWrap'>
+          <form id='signUpForm' action='signUp' method='POST'>
+            <label for='firstname' name='firstname'>Your First Name :&nbsp;</label>
+            <input type='text' name='firstname' />
+            <label for='pseudo' name='pseudo'>Choose your Pseudo :&nbsp;</label>
+            <input type='text' name='pseudo' />
+            <label for='email' name='email'>Enter your Email :&nbsp;</label>
+            <input type='email' name='email' />
+            <label for='pwd' name='pwd'>Choose your Password :&nbsp;</label>
+            <input type='password' name='pwd' />
+            <label for='pwdConfirm' name='pwdConfirm'>Confirm your Password :&nbsp;</label>
+            <input type='password' name='pwdConfirm' class='inputPwdConfirmSign' />
+            <input id='signUpSubmit' type='submit' value='Sign Up' />
+            <p id='signUpMsg' class='signUpMsg'></p>
+          </form>
+        </div>`;
+      break;
+  //------------------------------------------------------------------------------------------------//
+    case NewArticleIDPopup:
+      popupBody = 
+        `<div id='newArticleWrap'>
+          <form id='${idForm}' action='addNewArticle' method='POST'>
+            <label for='title' name='title'>Title :&nbsp;</label>
+            <input type='text' placeholder='max: 100 caracters' name='title' class='titleInputNewArticle' />
+            <label for='content' name='content'>Content :&nbsp;</label>
+            <textarea name='content' placeholder='write article here...' class='textNewArticle'></textarea>
+            <input class='newArticleSubmit' type='submit' value='Valid New Article' />
+            <p id='articleMsg' class='articleMsg'></p>
+          </form>
+        </div>`;
+      break;
+  //------------------------------------------------------------------------------------------------//
+    case UpdateArticleIDPopup:
+      popupBody = 
+        `<div id='updateArticleWrap'>
+          <form id='${idForm}' action='updateArticle' method='POST'>
+            <label for='title' name='title'>Title :&nbsp;</label>
+            <textarea name='title' class='titleInputupdateArticle'>${data.title}</textarea>
+            <label for='content' name='content'>Content :&nbsp;</label>
+            <textarea name='content' class='textupdateArticle'>${data.content}</textarea>
+            <input class='updateArticleSubmit' type='submit' value='Valid Modifications' />
+            <p id='articleMsg' class='articleMsg'></p>
+          </form>
+        </div>`;
+      break;
+  //------------------------------------------------------------------------------------------------//
+    case UpdateCommentIDPopup:
+      popupBody = 
+        `<div id='updateArticleWrap'>
+          <form id='${idForm}' action='updateComment' method='POST'>
+            <label for='content' name='content'>Content :&nbsp;</label>
+            <textarea name='content' class='textupdateComment'>${data.content}</textarea>
+            <input class='updateCommentSubmit' type='submit' value='Valid Modifications' />
+            <p id='articleMsg' class='articleMsg'></p>
+          </form>
+        </div>`;
+      break;
+  //------------------------------------------------------------------------------------------------//
+    default:
+      popupBody = 
+        `<div>
+          <form>
+            <label for='content' name='content'>Content :&nbsp;</label>
+            <textarea name='content' class='textupdateComment'>DEFAULT</textarea>
+            <p id='articleMsg' class='articleMsg'></p>
+          </form>
+        </div>`;
+      break;
+  //------------------------------------------------------------------------------------------------//
   }
   return popupBody;
 }

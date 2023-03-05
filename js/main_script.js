@@ -9,7 +9,7 @@ const UserWelcome = document.getElementById('userWelcome');
 const Main = document.getElementById('main');
 const PostContainer = document.getElementById('postContainer');
 const LogIDPopup = 'logPopup';
-const SignIDPopup= 'signPopup';
+const SignIDPopup = 'signPopup';
 const Redactor = 'Redactor';
 const Moderator = 'Moderator';
 const Administrator = 'Administrator';
@@ -143,20 +143,18 @@ function createLogSignPopup(idPopup) {
   let action = '';
   let func;
 
-  if (idPopup == 'logPopup') {
+  if (idPopup == LogIDPopup) {
     idForm = 'logInForm';
     action = 'logIn';
     func = getUserSuccess;
-    popupHeader.innerHTML = buildPopupHeader(idPopup);
-    popupBody.innerHTML = buildPopupBody(idPopup, idForm, 'null');
   }
-  else if (idPopup == 'signPopup') {
+  else if (idPopup == SignIDPopup) {
     idForm = 'signUpForm';
     action = 'signUp';
     func = insertUserSuccess;
-    popupHeader.innerHTML = buildPopupHeader(idPopup);
-    popupBody.innerHTML =buildPopupBody(idPopup, idForm, 'null');
   }
+  popupHeader.innerHTML = buildPopupHeader(idPopup);
+  popupBody.innerHTML = buildPopupBody(idPopup, idForm, 'null');
 
   document.querySelector('.close').addEventListener('click', () => {
     toggleMainPositiveZ_Index();

@@ -99,23 +99,19 @@ function createUpdatePopup(idPopup, data) {
     action = 'addNewArticle';
     func = insertArticleSuccess;
     data = '';
-    popupHeader.innerHTML = buildPopupHeader(idPopup);
-    popupBody.innerHTML = buildPopupBody(idPopup, idForm, data);
   }
   else if (idPopup == UpdateArticleIDPopup) {
     idForm = 'updateArticleForm';
     action = data.action;
     func = data.func;
-    popupHeader.innerHTML = buildPopupHeader(idPopup);
-    popupBody.innerHTML = buildPopupBody(idPopup, idForm, data);
   }
   else if (idPopup == UpdateCommentIDPopup) {
     idForm = 'updateCommentForm';
     action = data.action;
     func = data.func;
-    popupHeader.innerHTML = buildPopupHeader(idPopup);
-    popupBody.innerHTML = buildPopupBody(idPopup, idForm, data);
   }
+  popupHeader.innerHTML = buildPopupHeader(idPopup);
+  popupBody.innerHTML = buildPopupBody(idPopup, idForm, data);
 
   document.querySelector('.close').addEventListener('click', () => {
     toggleMainPositiveZ_Index();
