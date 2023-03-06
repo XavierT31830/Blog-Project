@@ -56,7 +56,7 @@ function displayArticles() {
     moderator = document.querySelectorAll('.moderator');
   }, '300');
 
-  if (sessionStorage.id_user !== undefined && sessionStorage.userRole !== undefined) {
+  if (sessionStorage.id_user !== undefined) {
     let redactor = document.getElementsByClassName(`redactor_${sessionStorage.id_user}`);
     UserWelcome.innerHTML = `Welcome ${sessionStorage.pseudo}`;
     setTimeout(() => {
@@ -102,7 +102,7 @@ function all_listeners() {
     let eyes = document.querySelectorAll('.commentsView');
     buildEyesListeners(eyes);
     
-    if (sessionStorage.userRole !== undefined && sessionStorage.userRole !== undefined) {
+    if (sessionStorage.userRole !== undefined) {
       redactor_listeners();
       console.log('Redactor Listeners');
       if (sessionStorage.userRole == Moderator) {
@@ -299,16 +299,16 @@ function verif(formData, action, func) {
 }
 
 
+
 function sendCnxData(formData, action, func) {
-  formData.action = action;
-  let failure;
-  let displayMsg = null;
   const FlogMsg = document.getElementById('flogMsg');
   const SignUpMsg = document.getElementById('signUpMsg');
   const UpdatePopupMsg = document.getElementById('articleMsg');
   const NewCommentMsg = document.getElementById('newCommentMsg');
   const ArticleToolMsg = document.getElementById(`art_msg_tools_${formData.id_article}`)
-  
+  formData.action = action;
+  let failure;
+  let displayMsg;
   switch (action) {
     // -----------------------------------//
     case 'displayAllArticles':
